@@ -13,17 +13,21 @@ f_conn.write (raw_data)
 f_conn.close()
 
 soup = BeautifulSoup(html_page, "html.parser")
-
-#content
 table = soup.find("table", {"id":"tableContent"})
-tr_list = table.find_all("tr")
+table_vnm = []
+list_of_rows = []
+for row in table.find_all('tr')[1:]:
+    list_of_cells = []
+    for cell in row.find_all('td'):
+        text = cell.text.replace('&nbsp;','' )
+        list_of_cells.append(text)
+    list_of_rows.append(list_of_cells)
+table_vnm.append((list_of_rows, list_of_cells))
+print(table_vnm)
 
-print(type(tr_list))
-for tr in tr_list:
-    td_list = tr.find_all("td")
-    for td in td_list:
-        content = td.string
-        
+#chua hoan thien
 
-data_list = []
+# pyexcel.save_as(records=table_vnm, dest_file_name= "vnm.xlsx")
+# print("done")
+
 
